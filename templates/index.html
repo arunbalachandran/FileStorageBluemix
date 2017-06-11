@@ -35,14 +35,14 @@
 
     <div class="container">
       <form method="post" action="{{ url_for('DownloadDeleteFiles') }}" class="form-group">
-        <input type="submit" name="Delete" value="Delete selected files" class="form-control">
-        <input type="submit" name="Download" value="Download selected files" class="form-control">
+        <input type="submit" name="Delete" value="Delete selected file" class="form-control">
+        <input type="submit" name="Download" value="Download selected file" class="form-control">
         <table class="table">
           <tr>
             <th>Name</th>
             <th>Bytes</th>
             <th>Last Modified</th>
-            <th>Select Files</th>
+            <th>Select File</th>
           </tr>
           {% for dataelement in files_data %}
               <tr>

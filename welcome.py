@@ -1,26 +1,19 @@
-# Copyright 2015 IBM Corp. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
 import swiftclient
 import os, json
 from flask import Flask, render_template, request, url_for, redirect
 
-auth_url = "https://identity.open.softlayer.com"
-projectId = "ddbc77ad4d0343e789ab90902de1b129"
-region = "dallas"
-userId = "d2f34e1374b64c3ca8e29319e8907635"
-username = "admin_d1c1eac7b5f54e62cc63095d148e77d8c1989516"
-password = "RSsVnN6OBh]c8^)F"
+if os.getenv('VCAP_SERVICES'):
+    credentials = json.loads(os.getenv('VCAP_SERVICES'))
+else:
+    with open('VCAP_SERVICES.json') as fp:
+        credentials = json.load(fp)['VCAP_SERVICES']
+objectstorage_cred = credentials['Object-Storage'][0]['credentials']
+auth_url = objectstorage_cred['auth_url']
+projectId = objectstorage_cred['projectId']
+region = objectstorage_cred['region']
+userId = objectstorage_cred['userId']
+username = objectstorage_cred['username']
+password = objectstorage_cred['password']
 
 conn = swiftclient.Connection(
     key=password,

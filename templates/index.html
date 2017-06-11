@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Python Flask File Storage Application</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- <link rel="stylesheet" href="static/stylesheets/style.css"> -->
+  </head>
+
+  <body>
+    <h1>Home page</h1>
+    <h2>Container used - {{ containername }}</h2>
+    <p>Upload file here</p>
+    <form method="post" enctype="multipart/form-data" role="form" id="uploadForm">
+      <input type="file" name="file">
+      <input type="submit" value='Upload'>
+    </form>
+    <form method="post" action="{{ url_for('DownloadDeleteFiles') }}">
+      <input type="submit" name="Delete" value="Delete selected files">
+      <input type="submit" name="Download" value="Download selected files">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Bytes</th>
+          <th>Last Modified</th>
+          <th>Select Files</th>
+          <th>Download File</th>
+        </tr>
+        {% for dataelement in files_data %}
+            <tr>
+              <td>{{ dataelement['name'] }}</td>
+              <td>{{ dataelement['bytes'] }}</td>
+              <td>{{ dataelement['last_modified'] }}</td>
+              <td><input type="radio" name="selectedfiles" value="{{ dataelement['name'] }}"></td>
+            </tr>
+        {% endfor %}
+      </table>
+    </form>
+  </body>
+  <script>
+    $(document).ready(function() {
+        $("#uploadForm").submit(function(event) {
+            event.preventDefault();
+            var formData = new FormData($("#uploadForm")[0]);
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('Welcome') }}",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                async: true,
+                success: function(result) {
+                    console.log('Successfully uploaded file to container.');
+                    window.location.href = "{{ url_for('Welcome') }}";
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+    });
+   </script>
+</html>

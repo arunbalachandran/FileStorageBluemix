@@ -1,6 +1,7 @@
 # Python Flask Hello World Sample
 
 This application demonstrates a simple, reusable Python web application based on the [Flask microframework](http://flask.pocoo.org/).
+It allows you to download & upload files from a Bluemix server.
 
 ## Run the app locally
 
